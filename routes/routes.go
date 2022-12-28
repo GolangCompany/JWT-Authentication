@@ -7,7 +7,11 @@ import (
 )
 
 func UserRoutes(incomingRoutes *gin.Engine) {
-	incomingRoutes.Use(middleware.Authenticate())
-	incomingRoutes.GET("/users", controller.GetUsers())
+	incomingRoutes.POST("users/signup", controller.Signup())
+	incomingRoutes.POST("users/login", controller.Login())
+}
+func AuthRoutes(incomingRoutes *gin.Engine) {
+	incomingRoutes.Use(middleware.UserAuthenticate())
+	incomingRoutes.GET("/usersdata", controller.GetUsers())
 	incomingRoutes.GET("/users/:user_id", controller.GetUser())
 }

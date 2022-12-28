@@ -37,7 +37,7 @@ func VerifyPassword(userPassword string, providedPassword string) (bool, string)
 	msg := ""
 
 	if err != nil {
-		msg = fmt.Sprintf("email of password is incorrect")
+		msg = fmt.Sprintf("E-mail or Password is incorrect")
 		check = false
 	}
 	return check, msg
@@ -64,7 +64,7 @@ func Signup() gin.HandlerFunc {
 		defer cancel()
 		if err != nil {
 			log.Panic(err)
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "error occured while checking for the email"})
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "error detected while fetching the email"})
 		}
 
 		password := HashPassword(*user.Password)
@@ -74,11 +74,11 @@ func Signup() gin.HandlerFunc {
 		defer cancel()
 		if err != nil {
 			log.Panic(err)
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "error occured while checking for the phone number"})
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "Error occured while fetching the phone number"})
 		}
 
 		if count > 0 {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "this email or phone number already exists"})
+			c.JSON(http.StatusInternalServerError, gin.H{"Error": "The mentioned E-Mail or Phone Number already exists"})
 		}
 
 		user.Created_at, _ = time.Parse(time.RFC3339, time.Now().Format(time.RFC3339))
@@ -91,7 +91,7 @@ func Signup() gin.HandlerFunc {
 
 		resultInsertionNumber, insertErr := userCollection.InsertOne(ctx, user)
 		if insertErr != nil {
-			msg := fmt.Sprintf("User item was not created")
+			msg := fmt.Sprintf("User Details were not Saved")
 			c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
 			return
 		}

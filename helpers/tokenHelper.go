@@ -3,15 +3,16 @@ package helper
 import (
 	"context"
 	"fmt"
+	"log"
+	"os"
+	"time"
+
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/golangcompany/JWT-Authentication/database"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"log"
-	"os"
-	"time"
 )
 
 type SignedDetails struct {
@@ -67,6 +68,7 @@ func ValidateToken(signedToken string) (claims *SignedDetails, msg string) {
 
 	if err != nil {
 		msg = err.Error()
+		fmt.Println(msg)
 		return
 	}
 
@@ -78,10 +80,11 @@ func ValidateToken(signedToken string) (claims *SignedDetails, msg string) {
 	}
 
 	if claims.ExpiresAt < time.Now().Local().Unix() {
-		msg = fmt.Sprintf("token is expired")
+		msg = fmt.Sprintf("Your Token is not Valid anymore")
 		msg = err.Error()
 		return
 	}
+	fmt.Println(claims, msg)
 	return claims, msg
 }
 

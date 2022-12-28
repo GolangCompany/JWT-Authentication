@@ -11,7 +11,7 @@ import (
 )
 
 func DBSet() *mongo.Client {
-	client, err := mongo.NewClient(options.Client().ApplyURI("Connection String"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://rishav_4waytechnologies:xyiAnnmClyFa1qcW@cluster0.0aeeqhe.mongodb.net/?retryWrites=true&w=majority"))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -23,10 +23,10 @@ func DBSet() *mongo.Client {
 	}
 	err = client.Ping(context.TODO(), nil)
 	if err != nil {
-		log.Println("failes to connect mongodb")
+		log.Println("Failed to Connect")
 		return nil
 	}
-	fmt.Println("Successfully Connected to the mongodb")
+	fmt.Println("Successfully Connected to the Mongodb")
 	return client
 }
 
